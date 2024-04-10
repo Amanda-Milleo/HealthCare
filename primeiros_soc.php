@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Primeiros socorros</title>
+    <title>Registro De Saude</title>
     <style>
+        /* Reset de margens para o body e html */
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             width: 100%;
             height: 100%;
@@ -16,15 +22,14 @@
             margin: 0;
         }
         .header {
-            width: 1440px;
+            width: 100%;
             height: 80px;
-            padding-left: 64px;
-            padding-right: 64px;
-            background: #FA7F72;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            background: #3CB371;
             display: flex;
+            align-items: center;
+            justify-content: space-between; /* Alinha os itens nos extremos */
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
         .header img {
@@ -32,121 +37,33 @@
             height: 68px;
         }
 
-        .main-content {
-            align-self: stretch;
-            justify-content: flex-start;
-            align-items: flex-start;
-            display: inline-flex;
-        }
-
-        .text-content {
-            flex: 1 1 0;
-            height: 900px;
-            padding-left: 64px;
-            padding-right: 80px;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 24px;
-            display: inline-flex;
-        }
-
-        .text-content .content {
-            align-self: stretch;
-            height: 3336px;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 24px;
-            display: flex;
-        }
-
-        .text-content .content h1 {
-            color: black;
-            font-size: 65px;
-            font-family: Roboto;
-            font-weight: 700;
-            line-height: 67.20px;
-            word-wrap: break-word;
-        }
-
-        .text-content .content p {
-            color: black;
-            font-size: px;
-            font-family: Roboto;
-            font-weight: 400;
-            line-height: 27px;
-            word-wrap: break-word;
-        }
-
-        .image-section {
-            height: 900px;
-            background: #F4F4F4;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            display: inline-flex;
-        }
-
-        .image-section img {
-            width: 720px;
-            height: 620px;
-        }
-
-        .cta-section {
-            align-self: stretch;
-            height: 112px;
-            padding: 32px;
-            background: #FA7F72;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 48px;
-            display: flex;
-        }
-
-        .cta-section .button-veja-mais,
-        .cta-section .button-entrar-contato {
-            padding-left: 20px;
-            padding-right: 20px;
-            padding-top: 8px;
-            padding-bottom: 8px;
-            border: 1px black solid;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            display: inline-flex;
-            cursor: pointer;
-        }
-
-        .cta-section .button-veja-mais {
-            background: none;
-        }
-
-        .cta-section .button-entrar-contato {
-            background: black;
-        }
-
-        .cta-section .button-veja-mais span,
-        .cta-section .button-entrar-contato span {
-            color: black;
-            font-size: 16px;
-            font-family: Roboto;
-            font-weight: 400;
-            line-height: 24px;
-            word-wrap: break-word;
-        }
-
-        .cta-section .button-entrar-contato span {
-            color: white;
-        }
         .menu {
-            width: 103%;
+            width: 100%; /* Cobrir a largura total */
             height: 60px;
             background: #333; 
             display: flex;
             justify-content: space-around;
             align-items: center;
+            padding: 0 20px; /* Espaçamento interno */
+            box-sizing: border-box; /* Inclui padding na largura total */
+        }
+        .menu-botao {
+            width: 100%; /* Cobrir a largura total */
+            height: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 20px; /* Espaçamento interno */
+            box-sizing: border-box; /* Inclui padding na largura total */
+            margin-top: 100px;
+        }
+        
+        .menu-botao {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
         }
 
         .menu a {
@@ -157,48 +74,156 @@
             font-weight: bold;
         }
 
+        .main-content {
+            margin: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            height: 650px;
+        }
+
+        .content {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .content h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos para o menu de usuário */
+        .menu-usuario {
+            display: flex;
+            align-items: center; /* Alinha itens verticalmente */
+        }
+
+        .menu-usuario-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            z-index: 1;
+            margin-top: 10px; /* Ajuste para descer o submenu */
+            top: 60px; /* Deslocamento para baixo */
+        }
+
+        .menu-usuario-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-usuario.active .menu-usuario-content {
+            display: block;
+        }
+        .menu-link {
+            color: red;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="logo looker.png" alt="Logo">
+        <div class="menu-usuario">
+            <a href="#" onclick="toggleMenu()">Menu</a>
+            <div class="menu-usuario-content">
+                <a href="usu_edit.php">Sua Conta</a> 
+                <a href="usu_edit.php">Meu Cadastro</a> 
+                <a href="usu_edit.php">Meus Contatos</a> 
+                <a href="usu_edit.php">Suporte Emergencial</a> 
+            </div>
+        </div>
+        <img src="logo looker.png" alt="Logo" style="margin-left:auto;margin-right:auto;">
     </div>
     <div class="menu">
-        <a href="contato_seg.php">Clique aqui para entrar em contato com responsável pela pessoa</a>
-    </div>
-
-    <div class="main-content">
+        <a href="pagina_inicial.php">Pagina Inicial</a> 
+        <a href="contato_seg.php">Adicionar Contato de Segurança</a>
+        <a href="qrcode.php">QR Code</a>
     </div>
     <div class="main-content">
         <div class="text-content">
             <div class="content">
-                <h1>Primeiros Socorros para Pessoa Diabética</h1>
-                <p>Emergência Médica
-Sinais de Hipoglicemia
-A hipoglicemia pode ocorrer rapidamente em pessoas diabéticas. Reconheça os sinais:
+                <h1>Primeiros Socorros. Como Posso Ajudar?</h1>
+                <p>1º Passo: Escanei o QRcode do nosso usuario. </p>
+                <p>2º Passo: Entre em contato com uma unidade de saude ou com um contato de segurança.</p>
+                <p>3º Passo: Siga as intruções deixadas pelo o usuario em seu QRcode</p>
+                    <h1>O Que Evitar?</h1>
+                    <p>Tentar qualquer tipo de atendimento medico sem ter lido o que o usuario solicita no QRcode
+                        <br>Não Ignorar Informações Médicas
+                        <br>Não Subestimar Sintomas Relatados
+                        <br>Não Demorar na Análise do QR Code
+                        <br>Não Realizar Procedimentos Desnecessários
+                        <br>Não Fornecer Medicamentos Sem Verificação
+                    </p>
 
-Palidez: A pele pode parecer pálida e fria.
-Suor: Transpiração excessiva, mesmo em condições de frio.
-Fraqueza: Sensação repentina de fraqueza e fadiga.
-Tontura: Tontura e desorientação.
-Fome: Fome extrema mesmo após ter comido recentemente.
-Procedimentos de Emergência
-Passos para Auxiliar:
-Avalie a Situação: Verifique se a pessoa está consciente e responsiva.
-Administre Carboidratos: Ofereça açúcar rápido, como suco de laranja ou refrigerante regular.
-Evite Alimentos Gordurosos: Mantenha longe de alimentos gordurosos, pois eles podem retardar a absorção de açúcar.
-Chame Ajuda Médica: Se os sintomas persistirem ou piorarem, procure assistência médica imediatamente.
-O Que Evitar
-Insulina Excessiva: Evite administrar insulina sem a orientação de um profissional médico.
-Alimentos Gordurosos: Não ofereça alimentos com alto teor de gordura durante uma crise de hipoglicemia.
-Lembre-se sempre de buscar ajuda profissional quando necessário e de seguir o plano de cuidados diabéticos indicado pelo médico.</p>
+                <div class="menu-botao">
+                    <a href="contato_seg.php" class="menu-link">Clique aqui para entrar em contato emergencial</a>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="image-section">
-            <img src="Image.png" alt="Image.png">
-            <div class="cta-section">
-                <div class="button-veja-mais">
-                    <span>Veja Mais</span>
-                </div>
-                <div class="button-entrar
+    <!-- Rodapé -->
+    <footer class="footer">
+        <nav>
+            <a href="#">Sobre</a>
+            <a href="#">Contato</a>
+            <a href="#">Termos de uso</a>
+            <a href="#">Política de privacidade</a>
+        </nav>
+        <p>&copy; 2024 HealthQR.com. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menuUsuario = document.querySelector('.menu-usuario');
+            menuUsuario.classList.toggle('active');
+        }
+
+        // Adicionar evento de clique no documento para fechar o submenu ao clicar fora dele
+        document.addEventListener('click', function(event) {
+            const menuUsuario = document.querySelector('.menu-usuario');
+            if (!menuUsuario.contains(event.target)) {
+                menuUsuario.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

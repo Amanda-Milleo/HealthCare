@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página inicial</title>
     <style>
+        /* Reset de margens para o body e html */
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             width: 100%;
             height: 100%;
@@ -16,15 +22,14 @@
             margin: 0;
         }
         .header {
-            width: 1440px;
+            width: 100%;
             height: 80px;
-            padding-left: 64px;
-            padding-right: 64px;
-            background: #FA7F72;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            background: #3CB371;
             display: flex;
+            align-items: center;
+            justify-content: space-between; /* Alinha os itens nos extremos */
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
         .header img {
@@ -141,12 +146,62 @@
             color: white;
         }
         .menu {
-            width: 103%;
+            width: 100%; /* Alterado para cobrir a largura total */
             height: 60px;
             background: #333; 
             display: flex;
             justify-content: space-around;
             align-items: center;
+            padding: 0 20px; /* Adicionado padding para espaçamento interno */
+            box-sizing: border-box; /* Inclui padding na largura total */
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            
+        }
+
+        .menu-usuario {
+            display: flex;
+            align-items: center; /* Alinha itens verticalmente */
+    
+        }
+
+        .menu-usuario-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            z-index: 1;
+            margin-top: 10px; /* Ajuste para descer o submenu */
+            top: 60px; /* Deslocamento para baixo */
+            
+        }
+
+        .menu-usuario-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-usuario.active .menu-usuario-content {
+            display: block;
+        }
+
+        .menu {
+            width: 100%;
+            height: 60px;
+            background: #333; 
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
         .menu a {
@@ -157,33 +212,115 @@
             font-weight: bold;
         }
 
+        .main-content {
+            margin: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            height: 650px;
+        }
+
+        .content {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .content h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        footer {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="logo looker.png" alt="Logo">
+        <div class="menu-usuario">
+            <a href="#" onclick="toggleMenu()">Menu</a>
+            <div class="menu-usuario-content">
+                <a href="login.php">Login</a> 
+                <a href="banco.php">Usuarios</a> 
+                <a href="usu_edit.php">Editar Cadastro</a> 
+                <a href="primeiros_soc.php">Suporte Emergencial</a> 
+            </div>
+        </div>
+        <img src="logo looker.png" alt="Logo" style="margin-left:auto;margin-right:auto;">
     </div>
     <div class="menu">
-        <a href="usu_edit.php">Editar Cadastro</a>
+        <a href="usu_cad.php">Seu Cadastro</a> 
         <a href="contato_seg.php">Adicionar Contato de Segurança</a>
         <a href="qrcode.php">QR Code</a>
         <a href="primeiros_soc.php">Registro de Saúde</a>
     </div>
 
     <div class="main-content">
-    </div>
-    <div class="main-content">
         <div class="text-content">
             <div class="content">
-                <h1>Prevenção e cuidado: nosso compromisso com você.</h1>
-                <p>Nosso produto principal é cuidar de você, dando um QRCode que contém todas as informações médicas da pessoa debilitada. Caso a pessoa passe mal na rua, qualquer pessoa pode escanear o QRCode e ter acesso às informações necessárias para prestar os primeiros socorros. Além disso, você pode sincronizar seu dispositivo e informar um contato de segurança para acionarmos caso algo não esteja ok na leitura do seu medidor!</p>
+                <h1>Prevenção e cuidados: <br>nosso compromisso com você.</br></h1>
+                <p>Nosso principal serviço é cuidar de você através de um QRCode que armazena todas as informações médicas essenciais para casos de emergência. Se você passar por algum problema de saúde em locais públicos, qualquer pessoa pode escanear esse QRCode para acessar as informações necessárias e prestar os primeiros socorros de forma adequada.
+                <br>Além disso, oferecemos a possibilidade de sincronizar seu dispositivo e cadastrar um contato de emergência para ser acionado em situações em que a leitura do medidor não esteja correta. Assim, garantimos uma resposta rápida e eficiente para qualquer eventualidade, proporcionando tranquilidade e segurança para você e seus familiares.</br></p>
             </div>
         </div>
+        <img src="Image.png" alt="Image.png">
+    </div>
 
-        <div class="image-section">
-            <img src="Image.png" alt="Image.png">
-            <div class="cta-section">
-                <div class="button-veja-mais">
-                    <span>Veja Mais</span>
-                </div>
-                <div class="button-entrar
+    <!-- Rodapé -->
+    <footer>
+        <nav>
+            <a href="#">Sobre</a>
+            <a href="#">Contato</a>
+            <a href="#">Termos de uso</a>
+            <a href="#">Política de privacidade</a>
+        </nav>
+        <p>&copy; 2024 HealthQR.com. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menuUsuario = document.querySelector('.menu-usuario');
+            menuUsuario.classList.toggle('active');
+        }
+
+        // Adicionar evento de clique no documento para fechar o submenu ao clicar fora dele
+        document.addEventListener('click', function(event) {
+            const menuUsuario = document.querySelector('.menu-usuario');
+            if (!menuUsuario.contains(event.target)) {
+                menuUsuario.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
