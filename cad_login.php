@@ -74,7 +74,7 @@
 <body>
     <div class="container">
         <h2>Cadastro do Usuário</h2>
-        <form name="form1" id="form1" onsubmit="return validateForm()" method="post" action="usu_cad_php.php">
+        <form name="form1" id="form1" onsubmit="return validateForm()" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="form-group">
                 <label for="nome">Usuario:</label>
                 <input type="text" id="nome" name="txtNome" required>
@@ -86,8 +86,8 @@
                 <small>Formato: 123.456.789-01</small>
             </div>
             <div class="form-group">
-                <label for="nome">Senha:</label>
-                <input type="text" id="nome" name="txtNome" required>
+                <label for="senha">Senha:</label>
+                <input type="text" id="senha" name="txtSenha" required>
             </div>
             <button type="submit">Enviar</button>
         </form>
@@ -116,6 +116,46 @@
             campo.value = valorFormatado;
         }
     </script>
+
+    <?php
+    include("connection.php");
+
+    // Processamento do formulário e inserção no banco de dados
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Recuperando dados do formulário
+        $nome = $_POST['txtNome'];
+        $cpf = $_POST['txtCPF'];
+        $senha = $_POST['txtSenha'];
+
+        // Verificando se já existe um cadastro com mesmo nome de usuário ou CPF
+        $checkQuery = "SELECT id FROM usuario WHERE nome = ? OR cpf = ?";
+        $checkStmt = $conn->prepare($checkQuery);
+        $checkStmt->bind_param("ss", $nome, $cpf);
+        $checkStmt->execute();
+        $checkResult = $checkStmt->get_result();
+
+        if ($checkResult->num_rows > 0) {
+            echo "<script>alert('Já existe um cadastro com esse nome de usuário ou CPF!');</script>";
+        } else {
+            // Inserindo dados no banco de dados
+            $insertQuery = "INSERT INTO usuario (nome, cpf, senha) VALUES (?, ?, ?)";
+            $insertStmt = $conn->prepare($insertQuery);
+            $insertStmt->bind_param("sss", $nome, $cpf, $senha);
+
+            if ($insertStmt->execute()) {
+                echo "<script>alert('Cadastro realizado com sucesso!');</script>";
+            } else {
+                echo "Erro ao cadastrar: " . $insertStmt->error;
+            }
+
+            $insertStmt->close();
+        }
+
+        $checkStmt->close();
+        $conn->close();
+    }
+    ?>
+
 </body>
 
 </html>

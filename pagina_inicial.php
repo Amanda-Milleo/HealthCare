@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+include("connection.php");
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] && isset($_SESSION['nome'])) {
+    $nome = $_SESSION['nome'];
+    echo "<p>Bem-vindo, $nome!</p>";
+} else {
+    header("Location: login.php");
+    exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -271,10 +285,10 @@
         <div class="menu-usuario">
             <a href="#" onclick="toggleMenu()">Menu</a>
             <div class="menu-usuario-content">
-                <a href="login.php">Login</a> 
                 <a href="banco.php">Usuarios</a> 
                 <a href="usu_edit.php">Editar Cadastro</a> 
                 <a href="primeiros_soc.php">Suporte Emergencial</a> 
+                <a href="login.php">Sair</a> 
             </div>
         </div>
         <img src="logo looker.png" alt="Logo" style="margin-left:auto;margin-right:auto;">
