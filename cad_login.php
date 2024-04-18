@@ -68,6 +68,8 @@
         small {
             color: #6c757d;
         }
+
+
     </style>
 </head>
 
@@ -90,9 +92,9 @@
                 <input type="text" id="senha" name="txtSenha" required>
             </div>
             <button type="submit">Enviar</button>
+            <a href="login.php">Fazer Login</a>
         </form>
     </div>
-
     <script>
         function validateForm() {
             // Implemente sua lógica de validação aqui, se necessário

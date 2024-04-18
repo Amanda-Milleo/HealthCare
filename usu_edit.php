@@ -1,161 +1,114 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+<?php
+session_start();
+include("connection.php");
 
+// Verifica se o usuário está logado
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Recupera o ID do usuário logado da sessão
+$usuario_id = $_SESSION['usuario_id'];
+
+// Consulta o banco de dados para obter os dados do usuário logado
+$sql = "SELECT * FROM usuario WHERE id = $usuario_id";
+$resultado = $conn->query($sql);
+
+if ($resultado->num_rows > 0) {
+    $row = $resultado->fetch_assoc();
+
+    // Atribui os valores às variáveis para exibir no formulário de alteração
+    $id = $row["id"];
+    $nome = $row["nome"];
+    $cpf = $row["cpf"];
+    $email = $row["email"];
+    $data_nascimento = $row["data_nascimento"];
+    $sexo = $row["sexo"];
+    $tipo_diabetes = $row["tipo_diabetes"];
+    $data_diagnostico = $row["data_diagnostico"];
+    $nivel_acucar_sangue = $row["nivel_acucar_sangue"];
+    $peso = $row["peso"];
+    $altura = $row["altura"];
+    $pressao_arterial = $row["pressao_arterial"];
+    $historico_medico = $row["historico_medico"];
+    $medicamentos = $row["medicamentos"];
+    $alergias = $row["alergias"];
+} else {
+    echo "Usuário não encontrado!";
+    exit;
+}
+
+$conn->close();
+?>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar</title>
+    <title>Alterar Cadastro</title>
     <style>
         body {
-            background-color: #f5f5f5;
-            color: #333;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
 
         h1 {
-            color: black;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        form {
             color: #333;
         }
 
-        b {
-            color: black;
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         input[type="text"],
-        input[type="submit"] {
-            width: calc(100% - 20px);
-            padding: 10px;
+        input[type="email"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 8px;
             margin-bottom: 10px;
-            border-radius: 5px;
             border: 1px solid #ccc;
-            box-sizing: border-box;
+            border-radius: 3px;
         }
 
         input[type="submit"] {
-            background-color: #fa8072;
+            background-color: #007bff;
             color: #fff;
+            border: none;
+            padding: 10px 20px;
             cursor: pointer;
+            border-radius: 3px;
         }
 
         input[type="submit"]:hover {
-            background-color: #dc143c;
-        }
-
-        .error-message {
-            color: #dc143c;
-            margin-top: 5px;
-            font-size: 14px;
+            background-color: #0056b3;
         }
     </style>
 </head>
-
 <body>
-    <?php 
-    include("connection.php");
-    $id = $_GET["id"];
-    $sql = sprintf("SELECT * FROM usuario WHERE id = %d", $id);
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $id = $row["id"];
-            $nome = $row["nome"];
-            $cpf = $row["cpf"];
-            $email = $row["email"];
-            $data_nascimento = $row["data_nascimento"];
-            $sexo = $row["sexo"];
-            $tipo_diabetes = $row["tipo_diabetes"];
-            $data_diagnostico = $row["data_diagnostico"];
-            $nivel_acucar_sangue = $row["nivel_acucar_sangue"];
-            $peso = $row["peso"];
-            $altura = $row["altura"];
-            $pressao_arterial = $row["pressao_arterial"];
-            $historico_medico = $row["historico_medico"];
-            $medicamentos = $row["medicamentos"];
-            $alergias = $row["alergias"];
-        }
-    }
-    ?>
-    <div class="container">
-        <h1>Editar cadastro</h1>
-        <form name="form1" id="form1" method="post" action="usu_edit_php.php" onsubmit="return validateForm()">
-            <b>Nome:</b><br>
-            <input type="text" name="txtNome" value="<?php echo $nome ?>"><br>
-            <b>Cpf:</b><br>
-            <input type="text" name="txtCpf" value="<?php echo $cpf ?>"><br>
-            <b>Email:</b><br>
-            <input type="text" name="txtEmail" value="<?php echo $email ?>"><br>
-            <b>Data de nascimento:</b><br>
-            <input type="text" name="txtData_nascimento" value="<?php echo $data_nascimento ?>"><br>
-            <b>Sexo:</b><br>
-            <input type="text" name="txtSexo" value="<?php echo $sexo ?>"><br>
-            <b>Tipo de diabetes:</b><br>
-            <input type="text" name="txtTipo_diabetes" value="<?php echo $tipo_diabetes ?>"><br>
-            <b>Data de diagnóstico:</b><br>
-            <input type="text" name="txtData_diagnostico" value="<?php echo $data_diagnostico ?>"><br>
-            <b>Nível de açucar no sangue:</b><br>
-            <input type="text" name="txtNivel_acucar_sangue" value="<?php echo $nivel_acucar_sangue ?>"><br>
-            <b>Peso:</b><br>
-            <input type="text" name="txtPeso" value="<?php echo $peso ?>"><br>
-            <b>Altura:</b><br>
-            <input type="text" name="txtAltura" value="<?php echo $altura ?>"><br>
-            <b>Pressão arterial:</b><br>
-            <input type="text" name="txtPressao_arterial" value="<?php echo $pressao_arterial ?>"><br>
-            <b>Histórico médico:</b><br>
-            <input type="text" name="txtHistorico_medico" value="<?php echo $historico_medico ?>"><br>
-            <b>Medicamentos:</b><br>
-            <input type="text" name="txtMedicamentos" value="<?php echo $medicamentos ?>"><br>
-            <b>Alergias:</b><br>
-            <input type="text" name="txtAlergias" value="<?php echo $alergias ?>"><br>
-            <input type="hidden" name="hidId" value="<?php echo $id ?>"><br>
-            <button type="submit">Enviar</button>
-        </form>
-        <script>
-            function validateForm() {
-                document.getElementById("errorNome").innerHTML = "";
-                document.getElementById("errorCpf").innerHTML = "";
-                document.getElementById("errorEmail").innerHTML = "";
-
-                var nome = document.getElementsByName("txtNome")[0].value;
-                if (nome.trim() === "") {
-                    document.getElementById("errorNome").innerHTML = "Nome não pode ser vazio";
-                    return false;
-                }
-
-                var cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
-                var cpf = document.getElementsByName("txtCpf")[0].value;
-                if (!cpfRegex.test(cpf)) {
-                    document.getElementById("errorCpf").innerHTML = "CPF inválido";
-                    return false;
-                }
-
-                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                var email = document.getElementsByName("txtEmail")[0].value;
-                if (!emailRegex.test(email)) {
-                    document.getElementById("errorEmail").innerHTML = "Email inválido";
-                    return false;
-                }
-
-                return true;
-            }
-        </script>
-    </div>
+    <h1>Alterar Cadastro</h1>
+    <form action="processar_alteracao.php" method="POST">
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
+        Nome: <input type="text" name="nome" value="<?php echo $nome; ?>"><br>
+        CPF: <input type="text" name="cpf" value="<?php echo $cpf; ?>"><br>
+        Email: <input type="email" name="email" value="<?php echo $email; ?>"><br>
+        Data de Nascimento: <input type="date" name="data_nascimento" value="<?php echo $data_nascimento; ?>"><br>
+        Sexo: <input type="text" name="sexo" value="<?php echo $sexo; ?>"><br>
+        Tipo de Diabetes: <input type="text" name="tipo_diabetes" value="<?php echo $tipo_diabetes; ?>"><br>
+        Data do Diagnóstico: <input type="date" name="data_diagnostico" value="<?php echo $data_diagnostico; ?>"><br>
+        Nível de Açúcar no Sangue: <input type="text" name="nivel_acucar_sangue" value="<?php echo $nivel_acucar_sangue; ?>"><br>
+        Peso: <input type="text" name="peso" value="<?php echo $peso; ?>"><br>
+        Altura: <input type="text" name="altura" value="<?php echo $altura; ?>"><br>
+        Pressão Arterial: <input type="text" name="pressao_arterial" value="<?php echo $pressao_arterial; ?>"><br>
+        Histórico Médico: <textarea name="historico_medico"><?php echo $historico_medico; ?></textarea><br>
+        Medicamentos: <textarea name="medicamentos"><?php echo $medicamentos; ?></textarea><br>
+        Alergias: <textarea name="alergias"><?php echo $alergias; ?></textarea><br>
+        <input type="submit" value="Salvar Alterações">
+    </form>
 </body>
-
 </html>

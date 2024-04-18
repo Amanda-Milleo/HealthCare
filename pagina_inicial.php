@@ -1,17 +1,11 @@
 <?php
 session_start();
-
-include("connection.php");
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] && isset($_SESSION['nome'])) {
-    $nome = $_SESSION['nome'];
-    echo "<p>Bem-vindo, $nome!</p>";
-} else {
+// Verifica se o usuário está logado
+if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
-    exit;
+    exit();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -181,32 +175,67 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] && isset($_SESSION['no
 
         .menu-usuario {
             display: flex;
-            align-items: center; /* Alinha itens verticalmente */
-    
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(to right, #7cb342, #558b2f); /* Gradiente de fundo verde */
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
         }
+
+        .menu-usuario:hover {
+            background: linear-gradient(to right, #0056b3, #007bff); /* Mudança de cor no hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra mais proeminente no hover */
+            transform: scale(1.05); /* Aumento sutil do tamanho no hover */
+        }
+
+        .menu-usuario::before {
+            content: "\f007"; /* Código Unicode para um ícone de usuário (FontAwesome, por exemplo) */
+            font-family: "Font Awesome 5 Free"; /* Se estiver usando FontAwesome */
+            margin-right: 8px; /* Espaço entre o ícone e o texto */
+        }
+
 
         .menu-usuario-content {
             display: none;
             position: absolute;
-            background-color: #333;
+            background: linear-gradient(to bottom, #333, #666); /* Gradiente de cor no fundo */
             min-width: 160px;
             z-index: 1;
             margin-top: 10px; /* Ajuste para descer o submenu */
             top: 60px; /* Deslocamento para baixo */
-            
+            border: 1px solid #666; /* Borda ao redor do submenu */
+            border-radius: 5px; /* Cantos arredondados */
+            padding: 10px; /* Espaçamento interno */
         }
+        
 
         .menu-usuario-content a {
             color: white;
-            padding: 12px 16px;
+            padding: 10px 20px; /* Reduzindo um pouco o padding para ficar mais compacto */
             text-decoration: none;
             display: block;
+            font-size: 14px; /* Tamanho de texto */
+            transition: background-color 0.3s; /* Transição suave de cor ao passar o mouse */
+        }
+
+        .menu-usuario-content a:hover {
+            background-color: #555; /* Cor de fundo ao passar o mouse */
         }
 
         .menu-usuario.active .menu-usuario-content {
             display: block;
         }
 
+        .menu-usuario-content a i {
+            margin-right: 8px; /* Espaçamento entre o texto e o ícone */
+        }
         .menu {
             width: 100%;
             height: 60px;
@@ -227,32 +256,64 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] && isset($_SESSION['no
         }
 
         .main-content {
-            margin: 20px;
+            margin: 30px 15px;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            height: 650px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            border-radius: 20px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
         .content {
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
         }
 
         .content h1 {
-            color: #333;
-            font-size: 28px;
+            color: #fff;
+            font-size: 80  px; 
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
         }
 
         .content p {
-            color: #666;
-            font-size: 18px;
-            line-height: 1.6;
+            color: #eee;
+            font-size: 72px;
+            line-height: 1.8;
+            text-align: justify;
         }
+
+        @media screen and (max-width: 768px) {
+            .main-content {
+                height: auto;
+                padding: 20px;
+            }
+
+            .content {
+                padding: 20px;
+                max-width: none;
+            }
+
+            .content h1 {
+                font-size: 80px;
+                margin-bottom: 20px;
+            }
+
+            .content p {
+                font-size: 72px; 
+                line-height: 1.6;
+            }
+        }
+
 
         footer {
             width: 100%;
@@ -279,16 +340,17 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] && isset($_SESSION['no
             text-decoration: underline;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+
 </head>
 <body>
     <div class="header">
         <div class="menu-usuario">
             <a href="#" onclick="toggleMenu()">Menu</a>
             <div class="menu-usuario-content">
-                <a href="banco.php">Usuarios</a> 
+                <a href="banco.php">Usuários</a> 
                 <a href="usu_edit.php">Editar Cadastro</a> 
                 <a href="primeiros_soc.php">Suporte Emergencial</a> 
-                <a href="login.php">Sair</a> 
             </div>
         </div>
         <img src="logo looker.png" alt="Logo" style="margin-left:auto;margin-right:auto;">
@@ -299,11 +361,12 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] && isset($_SESSION['no
         <a href="qrcode.php">QR Code</a>
         <a href="primeiros_soc.php">Registro de Saúde</a>
     </div>
-
+    <div style="text-align: center; padding: 20px; background-color: #f2f2f2; border-radius: 15px; width: 100%; margin: 0 auto;">
+        <h2 style="color: #4CAF50; font-family: Arial, sans-serif;">Bem-vindo, <?php echo $_SESSION['usuario_nome']; ?>!</h2>
+    </div>
     <div class="main-content">
         <div class="text-content">
-            <div class="content">
-                <h1>Prevenção e cuidados: <br>nosso compromisso com você.</br></h1>
+                <h1>Prevenção e cuidados: <br>Nosso compromisso com você.</br></h1>
                 <p>Nosso principal serviço é cuidar de você através de um QRCode que armazena todas as informações médicas essenciais para casos de emergência. Se você passar por algum problema de saúde em locais públicos, qualquer pessoa pode escanear esse QRCode para acessar as informações necessárias e prestar os primeiros socorros de forma adequada.
                 <br>Além disso, oferecemos a possibilidade de sincronizar seu dispositivo e cadastrar um contato de emergência para ser acionado em situações em que a leitura do medidor não esteja correta. Assim, garantimos uma resposta rápida e eficiente para qualquer eventualidade, proporcionando tranquilidade e segurança para você e seus familiares.</br></p>
             </div>
