@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página inicial</title>
     <style>
-        /* Reset de margens para o body e html */
         body {
-            margin: 0; /* Removendo margens padrão */
+            margin: 0; 
             width: 100%;
             height: 100%;
             background: white;
@@ -26,7 +25,7 @@
             justify-content: space-between;
             padding: 0 20px;
             box-sizing: border-box;
-            margin-top: 0; /* Removendo margem superior */
+            margin-top: 0; 
         }
 
         .header img {
@@ -164,8 +163,7 @@
 
         .menu-usuario {
             display: flex;
-            align-items: center; /* Alinha itens verticalmente */
-    
+            align-items: center; 
         }
 
         .menu-usuario-content {
@@ -174,8 +172,8 @@
             background-color: #333;
             min-width: 160px;
             z-index: 1;
-            margin-top: 10px; /* Ajuste para descer o submenu */
-            top: 60px; /* Deslocamento para baixo */
+            margin-top: 10px; 
+            top: 60px; 
             
         }
 
@@ -216,7 +214,7 @@
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             height: 650px;
             width: 100%;
-            max-width: 600px; /* Defina um valor máximo para a largura */
+            max-width: 600px; 
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -365,7 +363,6 @@
         </div>
     </div>
 
-    <!-- Rodapé -->
     <footer>
         <nav>
             <a href="#">Sobre</a>
@@ -396,27 +393,23 @@
             var cpf = document.getElementById("cpf").value;
             var parentesco = document.getElementById("parentesco").value;
 
-            // Validar campos vazios
             if (nome === "" || email === "" || telefone === "" || cpf === "" || parentesco === "") {
                 alert("Por favor, preencha todos os campos.");
                 return false;
             }
 
-            // Validar e-mail (formato simples)
             var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!emailRegex.test(email)) {
                 alert("Por favor, insira um e-mail válido.");
                 return false;
             }
 
-            // Validar telefone usando regex
             var telefoneRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
             if (!telefoneRegex.test(telefone)) {
                 alert("Por favor, insira um telefone válido.");
                 return false;
             }
 
-            // Validar CPF usando regex
             var cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
             if (!cpfRegex.test(cpf)) {
                 alert("Por favor, insira um CPF válido.");
@@ -427,7 +420,6 @@
             return true;
         }
 
-        // Coloca a máscara assim que o campo é digitado
         function formatarCampo(idCampo, mascara) {
             var campo = document.getElementById(idCampo);
             var valorCampo = campo.value.replace(/\D/g, "");
@@ -435,10 +427,8 @@
             var valorFormatado = "";
 
             for (var i = 0, j = 0; i < mascaraArray.length && j < valorCampo.length; i++) {
-                // Se o valor digitado está na máscara como #, mantém o valor digitado
                 if (mascaraArray[i] === "#") {
                     valorFormatado += valorCampo[j++];
-                    // Se não, coloca a máscara
                 } else {
                     valorFormatado += mascaraArray[i];
                 }

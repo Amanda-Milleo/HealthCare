@@ -1,3 +1,59 @@
+<?php
+session_start(); 
+
+include("connection.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST['txtNome'];
+    $cpf = $_POST['txtCPF'];
+    $senha = $_POST['txtSenha'];
+
+    $checkQuery = "SELECT id, nome FROM usuario WHERE nome = ? OR cpf = ?";
+    $checkStmt = $conn->prepare($checkQuery);
+    $checkStmt->bind_param("ss", $nome, $cpf);
+    $checkStmt->execute();
+    $checkResult = $checkStmt->get_result();
+
+    if ($checkResult->num_rows > 0) {
+        echo "<script>alert('Já existe um cadastro com esse nome de usuário ou CPF!');</script>";
+    } else {
+        $insertQuery = "INSERT INTO usuario (nome, cpf, senha) VALUES (?, ?, ?)";
+        $insertStmt = $conn->prepare($insertQuery);
+        $insertStmt->bind_param("sss", $nome, $cpf, $senha);
+
+        if ($insertStmt->execute()) {
+            $insertStmt->close();
+
+            $getIdQuery = "SELECT id, nome FROM usuario WHERE nome = ?";
+            $getIdStmt = $conn->prepare($getIdQuery);
+            $getIdStmt->bind_param("s", $nome);
+            $getIdStmt->execute();
+            $idResult = $getIdStmt->get_result();
+
+            if ($idResult->num_rows > 0) {
+                $row = $idResult->fetch_assoc();
+                $_SESSION['usuario_id'] = $row['id'];
+                $_SESSION['usuario_nome'] = $row['nome'];
+                header("Location: pagina_inicial.php");
+                exit();
+            } else {
+                echo "Erro ao buscar informações do usuário recém-cadastrado.";
+            }
+
+            $getIdStmt->close();
+        } else {
+            echo "Erro ao cadastrar: " . $insertStmt->error;
+        }
+
+        $insertStmt->close();
+    }
+
+    $checkStmt->close();
+    $conn->close();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -97,8 +153,7 @@
     </div>
     <script>
         function validateForm() {
-            // Implemente sua lógica de validação aqui, se necessário
-            return true; // Temporário, sempre envia o formulário para fins de demonstração
+            return true; 
         }
 
         function formatarCampo(idCampo, mascara) {
@@ -117,19 +172,18 @@
 
             campo.value = valorFormatado;
         }
+
+
     </script>
 
     <?php
     include("connection.php");
 
-    // Processamento do formulário e inserção no banco de dados
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Recuperando dados do formulário
         $nome = $_POST['txtNome'];
         $cpf = $_POST['txtCPF'];
         $senha = $_POST['txtSenha'];
 
-        // Verificando se já existe um cadastro com mesmo nome de usuário ou CPF
         $checkQuery = "SELECT id FROM usuario WHERE nome = ? OR cpf = ?";
         $checkStmt = $conn->prepare($checkQuery);
         $checkStmt->bind_param("ss", $nome, $cpf);
@@ -139,7 +193,6 @@
         if ($checkResult->num_rows > 0) {
             echo "<script>alert('Já existe um cadastro com esse nome de usuário ou CPF!');</script>";
         } else {
-            // Inserindo dados no banco de dados
             $insertQuery = "INSERT INTO usuario (nome, cpf, senha) VALUES (?, ?, ?)";
             $insertStmt = $conn->prepare($insertQuery);
             $insertStmt->bind_param("sss", $nome, $cpf, $senha);
@@ -149,6 +202,7 @@
             } else {
                 echo "Erro ao cadastrar: " . $insertStmt->error;
             }
+
 
             $insertStmt->close();
         }

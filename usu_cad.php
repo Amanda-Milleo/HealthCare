@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página inicial</title>
     <style>
-        /* Reset de margens para o body e html */
         body,
         html {
             margin: 0;

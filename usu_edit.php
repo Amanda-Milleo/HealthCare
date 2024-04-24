@@ -92,11 +92,11 @@ $conn->close();
 </head>
 <body>
     <h1>Alterar Cadastro</h1>
-    <form action="processar_alteracao.php" method="POST">
+    <form action="processar_alteracao.php" method="POST" onsubmit="return validateForm()">
         <input type="hidden" name="id" value="<?php echo $id; ?>">
-        Nome: <input type="text" name="nome" value="<?php echo $nome; ?>"><br>
-        CPF: <input type="text" name="cpf" value="<?php echo $cpf; ?>"><br>
-        Email: <input type="email" name="email" value="<?php echo $email; ?>"><br>
+        Nome: <input type="text" id="nome" name="nome" value="<?php echo $nome; ?>" required><br>
+        CPF: <input type="text" id="cpf" name="cpf" value="<?php echo $cpf; ?>" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" oninput="formatarCPF(this)">
+        Email: <input type="email" id="email" name="email" value="<?php echo $email; ?>" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"><br>
         Data de Nascimento: <input type="date" name="data_nascimento" value="<?php echo $data_nascimento; ?>"><br>
         Sexo: <input type="text" name="sexo" value="<?php echo $sexo; ?>"><br>
         Tipo de Diabetes: <input type="text" name="tipo_diabetes" value="<?php echo $tipo_diabetes; ?>"><br>
@@ -112,3 +112,43 @@ $conn->close();
     </form>
 </body>
 </html>
+<script>
+     function formatarCPF(campo) {
+        
+        var cpf = campo.value.replace(/\D/g, '');
+
+        cpf = cpf.slice(0, 11);
+
+        if (cpf.length > 0) {
+           cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+         }
+
+        campo.value = cpf;
+     }
+
+    function validateForm() {
+        var nome = document.getElementById("nome").value;
+        var email = document.getElementById("email").value;
+        var cpf = document.getElementById("cpf").value;
+
+        if (nome === "" || email === "" || cpf === "") {
+            alert("Por favor, preencha todos os campos.");
+            return false;
+        }
+
+        var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            alert("Por favor, insira um e-mail válido.");
+            return false;
+        }
+
+        var cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+        if (!cpfRegex.test(cpf)) {
+            alert("Por favor, insira um CPF válido.");
+            return false;
+        }
+
+        // Se todos os campos estiverem preenchidos e válidos, o formulário é enviado
+        return true;
+    }
+</script>

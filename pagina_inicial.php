@@ -1,6 +1,5 @@
 <?php
 session_start();
-// Verifica se o usuário está logado
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit();
@@ -13,7 +12,6 @@ if (!isset($_SESSION['usuario_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página inicial</title>
     <style>
-        /* Reset de margens para o body e html */
         body, html {
             margin: 0;
             padding: 0;
@@ -35,7 +33,7 @@ if (!isset($_SESSION['usuario_id'])) {
             background: #3CB371;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Alinha os itens nos extremos */
+            justify-content: space-between; 
             padding: 0 20px;
             box-sizing: border-box;
         }
