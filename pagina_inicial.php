@@ -152,14 +152,14 @@ if (!isset($_SESSION['usuario_id'])) {
             color: white;
         }
         .menu {
-            width: 100%; /* Alterado para cobrir a largura total */
+            width: 100%; 
             height: 60px;
             background: #333; 
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 0 20px; /* Adicionado padding para espaçamento interno */
-            box-sizing: border-box; /* Inclui padding na largura total */
+            padding: 0 20px; 
+            box-sizing: border-box; 
         }
 
         .menu a {
@@ -176,7 +176,7 @@ if (!isset($_SESSION['usuario_id'])) {
             align-items: center;
             justify-content: center;
             position: relative;
-            background: linear-gradient(to right, #7cb342, #558b2f); /* Gradiente de fundo verde */
+            background: linear-gradient(to right, #7cb342, #558b2f); 
             padding: 10px 15px;
             border-radius: 5px;
             transition: all 0.3s ease;
@@ -188,43 +188,43 @@ if (!isset($_SESSION['usuario_id'])) {
         }
 
         .menu-usuario:hover {
-            background: linear-gradient(to right, #0056b3, #007bff); /* Mudança de cor no hover */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra mais proeminente no hover */
-            transform: scale(1.05); /* Aumento sutil do tamanho no hover */
+            background: linear-gradient(to right, #0056b3, #007bff); 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            transform: scale(1.05); 
         }
 
         .menu-usuario::before {
-            content: "\f007"; /* Código Unicode para um ícone de usuário (FontAwesome, por exemplo) */
-            font-family: "Font Awesome 5 Free"; /* Se estiver usando FontAwesome */
-            margin-right: 8px; /* Espaço entre o ícone e o texto */
+            content: "\f007"; 
+            font-family: "Font Awesome 5 Free";
+            margin-right: 8px; 
         }
 
 
         .menu-usuario-content {
             display: none;
             position: absolute;
-            background: linear-gradient(to bottom, #333, #666); /* Gradiente de cor no fundo */
+            background: linear-gradient(to bottom, #333, #666);
             min-width: 160px;
             z-index: 1;
-            margin-top: 10px; /* Ajuste para descer o submenu */
-            top: 60px; /* Deslocamento para baixo */
-            border: 1px solid #666; /* Borda ao redor do submenu */
-            border-radius: 5px; /* Cantos arredondados */
-            padding: 10px; /* Espaçamento interno */
+            margin-top: 10px; 
+            top: 60px; 
+            border: 1px solid #666; 
+            border-radius: 5px; 
+            padding: 10px; 
         }
         
 
         .menu-usuario-content a {
             color: white;
-            padding: 10px 20px; /* Reduzindo um pouco o padding para ficar mais compacto */
+            padding: 10px 20px; 
             text-decoration: none;
             display: block;
-            font-size: 14px; /* Tamanho de texto */
-            transition: background-color 0.3s; /* Transição suave de cor ao passar o mouse */
+            font-size: 14px; 
+            transition: background-color 0.3s; 
         }
 
         .menu-usuario-content a:hover {
-            background-color: #555; /* Cor de fundo ao passar o mouse */
+            background-color: #555; 
         }
 
         .menu-usuario.active .menu-usuario-content {
@@ -232,7 +232,7 @@ if (!isset($_SESSION['usuario_id'])) {
         }
 
         .menu-usuario-content a i {
-            margin-right: 8px; /* Espaçamento entre o texto e o ícone */
+            margin-right: 8px; 
         }
         .menu {
             width: 100%;
@@ -372,7 +372,6 @@ if (!isset($_SESSION['usuario_id'])) {
         <img src="Image.png" alt="Image.png">
     </div>
 
-    <!-- Rodapé -->
     <footer>
         <nav>
             <a href="#">Sobre</a>
@@ -389,7 +388,7 @@ if (!isset($_SESSION['usuario_id'])) {
             menuUsuario.classList.toggle('active');
         }
 
-        // Adicionar evento de clique no documento para fechar o submenu ao clicar fora dele
+        // Adiciona evento de clique no documento para fechar o submenu ao clicar fora dele
         document.addEventListener('click', function(event) {
             const menuUsuario = document.querySelector('.menu-usuario');
             if (!menuUsuario.contains(event.target)) {

@@ -441,7 +441,6 @@
             menuUsuario.classList.toggle('active');
         }
 
-        // Adicionar evento de clique no documento para fechar o submenu ao clicar fora dele
         document.addEventListener('click', function(event) {
             const menuUsuario = document.querySelector('.menu-usuario');
             if (!menuUsuario.contains(event.target)) {

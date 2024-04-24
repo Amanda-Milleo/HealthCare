@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro De Saude</title>
     <style>
-        /* Reset de margens para o body e html */
         body, html {
             margin: 0;
             padding: 0;
@@ -27,7 +26,7 @@
             background: #3CB371;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Alinha os itens nos extremos */
+            justify-content: space-between;
             padding: 0 20px;
             box-sizing: border-box;
         }
@@ -38,23 +37,23 @@
         }
 
         .menu {
-            width: 100%; /* Cobrir a largura total */
+            width: 100%; 
             height: 60px;
             background: #333; 
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 0 20px; /* Espaçamento interno */
-            box-sizing: border-box; /* Inclui padding na largura total */
+            padding: 0 20px;
+            box-sizing: border-box;
         }
         .menu-botao {
-            width: 100%; /* Cobrir a largura total */
+            width: 100%; 
             height: 60px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 0 20px; /* Espaçamento interno */
-            box-sizing: border-box; /* Inclui padding na largura total */
+            padding: 0 20px;
+            box-sizing: border-box; 
             margin-top: 100px;
         }
         
@@ -127,10 +126,9 @@
             text-decoration: underline;
         }
 
-        /* Estilos para o menu de usuário */
         .menu-usuario {
             display: flex;
-            align-items: center; /* Alinha itens verticalmente */
+            align-items: center; 
         }
 
         .menu-usuario-content {
@@ -139,8 +137,8 @@
             background-color: #333;
             min-width: 160px;
             z-index: 1;
-            margin-top: 10px; /* Ajuste para descer o submenu */
-            top: 60px; /* Deslocamento para baixo */
+            margin-top: 10px; 
+            top: 60px; 
         }
 
         .menu-usuario-content a {
@@ -200,7 +198,7 @@
         </div>
     </div>
 
-    <!-- Rodapé -->
+
     <footer class="footer">
         <nav>
             <a href="#">Sobre</a>
@@ -217,7 +215,7 @@
             menuUsuario.classList.toggle('active');
         }
 
-        // Adicionar evento de clique no documento para fechar o submenu ao clicar fora dele
+      
         document.addEventListener('click', function(event) {
             const menuUsuario = document.querySelector('.menu-usuario');
             if (!menuUsuario.contains(event.target)) {

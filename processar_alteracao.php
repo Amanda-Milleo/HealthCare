@@ -3,7 +3,6 @@ session_start();
 include("connection.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Receba os dados do formulário
     $id = $_POST['id'];
     $nome = $_POST['nome'];
     $cpf = $_POST['cpf'];
@@ -20,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $medicamentos = $_POST['medicamentos'];
     $alergias = $_POST['alergias'];
 
-    // Atualize os dados no banco de dados
     $sql = "UPDATE usuario SET nome='$nome', cpf='$cpf', email='$email', data_nascimento='$data_nascimento', sexo='$sexo', tipo_diabetes='$tipo_diabetes', data_diagnostico='$data_diagnostico', nivel_acucar_sangue='$nivel_acucar_sangue', peso='$peso', altura='$altura', pressao_arterial='$pressao_arterial', historico_medico='$historico_medico', medicamentos='$medicamentos', alergias='$alergias' WHERE id=$id";
 
     if ($conn->query($sql) === TRUE) {

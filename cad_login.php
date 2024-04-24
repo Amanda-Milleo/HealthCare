@@ -3,34 +3,44 @@ session_start();
 
 include("connection.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") { // Verifica se a requisição é do tipo POST e obtem os campos Nome, CPF e senha
     $nome = $_POST['txtNome'];
     $cpf = $_POST['txtCPF'];
     $senha = $_POST['txtSenha'];
 
+    // Verifica se já existe um cadastro com o mesmo nome de usuário ou CPF
     $checkQuery = "SELECT id, nome FROM usuario WHERE nome = ? OR cpf = ?";
     $checkStmt = $conn->prepare($checkQuery);
     $checkStmt->bind_param("ss", $nome, $cpf);
     $checkStmt->execute();
     $checkResult = $checkStmt->get_result();
 
-    if ($checkResult->num_rows > 0) {
+    if ($checkResult->num_rows > 0) { // Se já existe cadastro, exibe um alerta em JavaScript
         echo "<script>alert('Já existe um cadastro com esse nome de usuário ou CPF!');</script>";
-    } else {
+    } else { // Se não existe cadastro, realiza a inserção na tabela 'usuario'
         $insertQuery = "INSERT INTO usuario (nome, cpf, senha) VALUES (?, ?, ?)";
         $insertStmt = $conn->prepare($insertQuery);
         $insertStmt->bind_param("sss", $nome, $cpf, $senha);
 
-        if ($insertStmt->execute()) {
+        if ($insertStmt->execute()) {  // Se a inserção for bem-sucedida
             $insertStmt->close();
 
+             // Obtém o ID e o nome do usuário recém-cadastrado
             $getIdQuery = "SELECT id, nome FROM usuario WHERE nome = ?";
+
+            // Prepara a declaração SQL para execução
             $getIdStmt = $conn->prepare($getIdQuery);
+
+            // Vincula o valor do nome recebido do formulário ao parâmetro '?' na consulta SQL
             $getIdStmt->bind_param("s", $nome);
+
+            // Executa a consulta preparada
             $getIdStmt->execute();
+            
+            // Obtém o resultado da consulta
             $idResult = $getIdStmt->get_result();
 
-            if ($idResult->num_rows > 0) {
+            if ($idResult->num_rows > 0) { // Se encontrar o usuário, armazena na sessão e redireciona
                 $row = $idResult->fetch_assoc();
                 $_SESSION['usuario_id'] = $row['id'];
                 $_SESSION['usuario_nome'] = $row['nome'];
@@ -41,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             $getIdStmt->close();
-        } else {
+        } else { // Se houver erro na inserção, exibe o erro
             echo "Erro ao cadastrar: " . $insertStmt->error;
         }
 

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu QR code</title>
     <style>
-        /* Reset de margens para o body e html */
         body,
         html {
             margin: 0;
@@ -38,8 +37,8 @@
         .header img {
             width: 88px;
             height: 68px;
-            margin: 0 auto; /* Centraliza a logo horizontalmente */
-            display: block; /* Garante que a logo seja exibida como bloco */
+            margin: 0 auto; 
+            display: block; 
         }
 
         .menu {
@@ -159,7 +158,6 @@
         </div>
     </div>
 
-    <!-- Rodapé -->
     <footer>
         <nav>
             <a href="#">Sobre</a>
@@ -176,7 +174,6 @@
             menuUsuario.classList.toggle('active');
         }
 
-        // Adicionar evento de clique no documento para fechar o submenu ao clicar fora dele
         document.addEventListener('click', function (event) {
             const menuUsuario = document.querySelector('.menu-usuario');
             if (!menuUsuario.contains(event.target)) {
@@ -186,12 +183,10 @@
 
         function generateQRCode() {
             const qrCodeElement = document.getElementById('qr-code');
-            // URL para gerar um QR Code de exemplo
             const qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?data=ExampleQRCode&size=200x200';
             qrCodeElement.innerHTML = `<img src="${qrCodeUrl}" alt="QR Code">`;
         }
 
-        // Chamar a função para gerar o QR Code quando a página carregar
         window.onload = generateQRCode;
     </script>
 </body>

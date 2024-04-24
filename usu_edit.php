@@ -114,7 +114,7 @@ $conn->close();
 </html>
 <script>
      function formatarCPF(campo) {
-        
+
         var cpf = campo.value.replace(/\D/g, '');
 
         cpf = cpf.slice(0, 11);
@@ -148,7 +148,6 @@ $conn->close();
             return false;
         }
 
-        // Se todos os campos estiverem preenchidos e válidos, o formulário é enviado
         return true;
     }
 </script>

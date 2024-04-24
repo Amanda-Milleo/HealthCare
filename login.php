@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
-        // Usuário autenticado com sucesso, redirecione para a página inicial
+        // Com o Usuário autenticado com sucesso, redireciona para a página inicial
         $row = $result->fetch_assoc();
         $_SESSION['usuario_id'] = $row['id'];
         $_SESSION['usuario_nome'] = $row['nome'];

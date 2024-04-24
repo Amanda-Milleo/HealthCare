@@ -239,7 +239,7 @@
             menuUsuario.classList.toggle('active');
         }
 
-        // Adicionar evento de clique no documento para fechar o submenu ao clicar fora dele
+        // Adiciona evento de clique no documento para fechar o submenu ao clicar fora dele
         document.addEventListener('click', function(event) {
             const menuUsuario = document.querySelector('.menu-usuario');
             if (!menuUsuario.contains(event.target)) {
@@ -248,8 +248,7 @@
         });
 
         function validateForm() {
-            // Implemente sua lógica de validação aqui, se necessário
-            return true; // Temporário, sempre envia o formulário para fins de demonstração
+            return true; 
         }
 
         function formatarCampo(idCampo, mascara) {
