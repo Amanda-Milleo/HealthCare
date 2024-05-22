@@ -166,61 +166,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Verifica se a requisição é do 
             return true; 
         }
 
+        // Função para formatar o campo com uma máscara específica
         function formatarCampo(idCampo, mascara) {
+            // Obtém o elemento do campo pelo ID
             var campo = document.getElementById(idCampo);
+
+            // Remove todos os caracteres não numéricos do valor do campo
             var valorCampo = campo.value.replace(/\D/g, "");
+
+            // Converte a máscara em um array de caracteres
             var mascaraArray = mascara.split("");
+
+            // Variável para armazenar o valor formatado final
             var valorFormatado = "";
 
+            // Loop para percorrer a máscara e o valor do campo
             for (var i = 0, j = 0; i < mascaraArray.length && j < valorCampo.length; i++) {
+                // Se encontrar um caracter '#' na máscara, adiciona o próximo dígito do valor do campo
                 if (mascaraArray[i] === "#") {
                     valorFormatado += valorCampo[j++];
                 } else {
+                    // Caso contrário, adiciona o caracter da máscara diretamente ao valor formatado
                     valorFormatado += mascaraArray[i];
                 }
             }
 
+            // Define o valor formatado de volta ao campo
             campo.value = valorFormatado;
         }
 
 
+
     </script>
 
-    <?php
-    include("connection.php");
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nome = $_POST['txtNome'];
-        $cpf = $_POST['txtCPF'];
-        $senha = $_POST['txtSenha'];
-
-        $checkQuery = "SELECT id FROM usuario WHERE nome = ? OR cpf = ?";
-        $checkStmt = $conn->prepare($checkQuery);
-        $checkStmt->bind_param("ss", $nome, $cpf);
-        $checkStmt->execute();
-        $checkResult = $checkStmt->get_result();
-
-        if ($checkResult->num_rows > 0) {
-            echo "<script>alert('Já existe um cadastro com esse nome de usuário ou CPF!');</script>";
-        } else {
-            $insertQuery = "INSERT INTO usuario (nome, cpf, senha) VALUES (?, ?, ?)";
-            $insertStmt = $conn->prepare($insertQuery);
-            $insertStmt->bind_param("sss", $nome, $cpf, $senha);
-
-            if ($insertStmt->execute()) {
-                echo "<script>alert('Cadastro realizado com sucesso!');</script>";
-            } else {
-                echo "Erro ao cadastrar: " . $insertStmt->error;
-            }
-
-
-            $insertStmt->close();
-        }
-
-        $checkStmt->close();
-        $conn->close();
-    }
-    ?>
 
 </body>
 

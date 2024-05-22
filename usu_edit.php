@@ -36,6 +36,7 @@ if ($resultado->num_rows > 0) {
     $historico_medico = $row["historico_medico"];
     $medicamentos = $row["medicamentos"];
     $alergias = $row["alergias"];
+    
 } else {
     echo "Usuário não encontrado!";
     exit;
@@ -98,7 +99,7 @@ $conn->close();
         CPF: <input type="text" id="cpf" name="cpf" value="<?php echo $cpf; ?>" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" oninput="formatarCPF(this)">
         Email: <input type="email" id="email" name="email" value="<?php echo $email; ?>" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"><br>
         Data de Nascimento: <input type="date" name="data_nascimento" value="<?php echo $data_nascimento; ?>"><br>
-        Sexo: <input type="text" name="sexo" value="<?php echo $sexo; ?>"><br>
+        Sexo: <input type="text" id="sexo" name="sexo" value="<?php echo $sexo; ?>" required pattern="[MFmf]{1}" maxlength="1" oninput="this.value = this.value.toUpperCase()"><br>
         Tipo de Diabetes: <input type="text" name="tipo_diabetes" value="<?php echo $tipo_diabetes; ?>"><br>
         Data do Diagnóstico: <input type="date" name="data_diagnostico" value="<?php echo $data_diagnostico; ?>"><br>
         Nível de Açúcar no Sangue: <input type="text" name="nivel_acucar_sangue" value="<?php echo $nivel_acucar_sangue; ?>"><br>
@@ -113,25 +114,22 @@ $conn->close();
 </body>
 </html>
 <script>
-     function formatarCPF(campo) {
-
+    function formatarCPF(campo) {
         var cpf = campo.value.replace(/\D/g, '');
-
         cpf = cpf.slice(0, 11);
-
         if (cpf.length > 0) {
-           cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-         }
-
+            cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        }
         campo.value = cpf;
-     }
+    }
 
     function validateForm() {
         var nome = document.getElementById("nome").value;
         var email = document.getElementById("email").value;
         var cpf = document.getElementById("cpf").value;
+        var sexo = document.getElementById("sexo").value.toUpperCase();
 
-        if (nome === "" || email === "" || cpf === "") {
+        if (nome === "" || email === "" || cpf === "" || sexo === "") {
             alert("Por favor, preencha todos os campos.");
             return false;
         }
@@ -148,6 +146,13 @@ $conn->close();
             return false;
         }
 
+        var sexoRegex = /^[MF]$/;
+        if (!sexoRegex.test(sexo)) {
+            alert("Por favor, insira um sexo válido (M ou F).");
+            return false;
+        }
+
         return true;
     }
 </script>
+

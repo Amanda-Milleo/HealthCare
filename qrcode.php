@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu QR code</title>
-    <style>
+<style>
         body,
         html {
             margin: 0;
@@ -132,7 +131,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="menu-usuario">
@@ -153,9 +151,34 @@
 
     <div class="container">
         <h1>Gerador de QR Code</h1>
-        <div id="qr-code">
-            <!-- O QR Code gerado dinamicamente aparecerá aqui -->
-        </div>
+        <?php
+        session_start();
+        if(isset($_SESSION['usuario_id'])) {
+            $usuario_id = $_SESSION['usuario_id']; 
+            include("connection.php");
+
+            // Verifique a conexão
+            if ($conn->connect_error) {
+                die("Conexão com o banco de dados falhou: " . $conn->connect_error);
+            }
+
+            $sql = "SELECT * FROM usuario WHERE id = '$usuario_id'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $qrCodeData = 'http://localhost/HealthQR/usu_info.php';
+                $qrCodeUrl = "https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=" . urlencode($qrCodeData);
+                
+                echo '<div id="qr-code"><img src="' . $qrCodeUrl . '" alt="QR Code" /></div>';
+            } else {
+                echo "Usuário não encontrado!";
+            }
+            $conn->close();
+        } else {
+            echo "Faça login para gerar seu QR Code.";
+        }
+        ?>
     </div>
 
     <footer>
@@ -165,7 +188,7 @@
             <a href="#">Termos de uso</a>
             <a href="#">Política de privacidade</a>
         </nav>
-        <p>&copy; 2024 HealthQR.com. Todos os direitos reservados.</p>
+        <p>© 2024 HealthQR.com. Todos os direitos reservados.</p>
     </footer>
 
     <script>
@@ -180,15 +203,6 @@
                 menuUsuario.classList.remove('active');
             }
         });
-
-        function generateQRCode() {
-            const qrCodeElement = document.getElementById('qr-code');
-            const qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?data=ExampleQRCode&size=200x200';
-            qrCodeElement.innerHTML = `<img src="${qrCodeUrl}" alt="QR Code">`;
-        }
-
-        window.onload = generateQRCode;
     </script>
 </body>
-
 </html>
