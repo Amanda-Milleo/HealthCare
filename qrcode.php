@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu QR code</title>
-<style>
+    <style>
+        /* Reset de margens para o body e html */
         body,
         html {
             margin: 0;
@@ -36,8 +38,8 @@
         .header img {
             width: 88px;
             height: 68px;
-            margin: 0 auto; 
-            display: block; 
+            margin: 0 auto; /* Centraliza a logo horizontalmente */
+            display: block; /* Garante que a logo seja exibida como bloco */
         }
 
         .menu {
@@ -131,6 +133,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <div class="menu-usuario">
@@ -151,36 +154,12 @@
 
     <div class="container">
         <h1>Gerador de QR Code</h1>
-        <?php
-        session_start();
-        if(isset($_SESSION['usuario_id'])) {
-            $usuario_id = $_SESSION['usuario_id']; 
-            include("connection.php");
-
-            // Verifique a conexão
-            if ($conn->connect_error) {
-                die("Conexão com o banco de dados falhou: " . $conn->connect_error);
-            }
-
-            $sql = "SELECT * FROM usuario WHERE id = '$usuario_id'";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $qrCodeData = 'http://localhost/HealthQR/usu_info.php';
-                $qrCodeUrl = "https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=" . urlencode($qrCodeData);
-                
-                echo '<div id="qr-code"><img src="' . $qrCodeUrl . '" alt="QR Code" /></div>';
-            } else {
-                echo "Usuário não encontrado!";
-            }
-            $conn->close();
-        } else {
-            echo "Faça login para gerar seu QR Code.";
-        }
-        ?>
+        <div id="qr-code">
+            <!-- O QR Code gerado dinamicamente aparecerá aqui -->
+        </div>
     </div>
 
+    <!-- Rodapé -->
     <footer>
         <nav>
             <a href="#">Sobre</a>
@@ -203,6 +182,22 @@
                 menuUsuario.classList.remove('active');
             }
         });
+
+        function generateQRCode() {
+            const qrCodeElement = document.getElementById('qr-code');
+            
+            // 1. Obter a URL atual da página
+            const pageUrl = window.location.href;
+
+            // 2. Criar a URL para gerar o QR Code com a URL da página
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(pageUrl)}&size=200x200`;
+
+            // 3. Inserir a imagem do QR Code no elemento HTML
+            qrCodeElement.innerHTML = `<img src="${qrCodeUrl}" alt="QR Code">`;
+        }
+
+        window.onload = generateQRCode;
     </script>
 </body>
+
 </html>
