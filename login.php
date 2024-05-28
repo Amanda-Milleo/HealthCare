@@ -133,7 +133,7 @@ if ($result->num_rows > 0) {
             <input type="submit" value="Entrar">
         </form>
         <br>
-        <a href="cad_login.php" class="create-account-btn">Se Cadastrar</a>
+        <a href="index.php" class="create-account-btn">Se Cadastrar</a>
     </div>
 </body>
 
